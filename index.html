@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💕 For My Special Someone 💕</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Floating Hearts Background */
+        .hearts-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .floating-heart {
+            position: absolute;
+            font-size: 20px;
+            animation: floatUp 6s ease-in infinite;
+            opacity: 0;
+        }
+
+        @keyframes floatUp {
+            0% {
+                opacity: 0;
+                transform: translateY(100vh) rotate(0deg);
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100vh) rotate(720deg);
+            }
+        }
+
+        /* Stars */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 2s ease-in-out infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.5); }
+        }
+
+        /* Main Container */
+        .container {
+            text-align: center;
+            padding: 40px;
+            z-index: 10;
+            position: relative;
+        }
+
+        /* Opening Animation */
+        .envelope {
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .envelope:hover {
+            transform: scale(1.1);
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .envelope-icon {
+            font-size: 150px;
+            filter: drop-shadow(0 0 30px rgba(255, 107, 157, 0.5));
+        }
+
+        .click-text {
+            color: #ff6b9d;
+            font-size: 18px;
+            margin-top: 20px;
+            animation: fadeInOut 2s ease-in-out infinite;
+        }
+
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        /* Main Content */
+        .main-content {
+            display: none;
+            animation: fadeIn 1s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 4rem;
+            color: #ff6b9d;
+            text-shadow: 0 0 30px rgba(255, 107, 157, 0.5);
+            margin-bottom: 20px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 30px rgba(255, 107, 157, 0.5); }
+            to { text-shadow: 0 0 50px rgba(255, 107, 157, 0.8), 0 0 80px rgba(255, 107, 157, 0.4); }
+        }
+
+        .subtitle {
+            color: #e0e0e0;
+            font-size: 1.5rem;
+            margin-bottom: 40px;
+            font-weight: 300;
+        }
+
+        .love-letter {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            margin: 0 auto 40px;
+            border: 1px solid rgba(255, 107, 157, 0.3);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .love-letter p {
+            color: #fff;
+            font-size: 1.2rem;
+            line-height: 2;
+            margin-bottom: 20px;
+        }
+
+        .love-letter .signature {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2rem;
+            color: #ff6b9d;
+            margin-top: 30px;
+        }
+
+        .question {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3rem;
+            color: #fff;
+            margin: 40px 0;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+
+        /* Buttons */
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 20px 60px;
+            font-size: 1.5rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-yes {
+            background: linear-gradient(135deg, #ff6b9d, #ff8fab);
+            color: white;
+            box-shadow: 0 10px 40px rgba(255, 107, 157, 0.4);
+        }
+
+        .btn-yes:hover {
+            transform: scale(1.1);
+            box-shadow: 0 15px 50px rgba(255, 107, 157, 0.6);
+        }
+
+        .btn-no {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            box-shadow: 0 10px 40px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Response Screens */
+        .response-screen {
+            display: none;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .celebration {
+            font-size: 100px;
+            animation: bounce 0.5s ease infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .response-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 4rem;
+            color: #ff6b9d;
+            margin: 30px 0;
+        }
+
+        .response-text {
+            color: #fff;
+            font-size: 1.5rem;
+            max-width: 500px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        /* Confetti */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            top: -10px;
+            animation: confettiFall 3s ease-out forwards;
+        }
+
+        @keyframes confettiFall {
+            to {
+                top: 100vh;
+                transform: rotate(720deg);
+            }
+        }
+
+        /* Music Control */
+        .music-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .music-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .title { font-size: 2.5rem; }
+            .subtitle { font-size: 1.2rem; }
+            .question { font-size: 2rem; }
+            .love-letter { padding: 25px; margin: 0 20px 40px; }
+            .love-letter p { font-size: 1rem; }
+            .btn { padding: 15px 40px; font-size: 1.2rem; }
+            .envelope-icon { font-size: 100px; }
+        }
+    </style>
+</head>
+<body>
+    <button class="music-btn" onclick="toggleMusic()">🎵</button>
+    
+    <div class="hearts-container" id="heartsContainer"></div>
+    <div class="stars" id="starsContainer"></div>
+
+    <div class="container">
+        <!-- Opening Screen -->
+        <div class="envelope" id="envelope" onclick="openLetter()">
+            <div class="envelope-icon">💌</div>
+            <p class="click-text">Click to open your special letter...</p>
+        </div>
+
+        <!-- Main Proposal -->
+        <div class="main-content" id="mainContent">
+            <h1 class="title">Dear Sneha ❤️</h1>
+            <p class="subtitle">I have something special to tell you...</p>
+            
+            <div class="love-letter">
+                <p>From the moment I met you, my world has been filled with colors I never knew existed. Your smile brightens my darkest days, and your laughter is the sweetest melody I've ever heard.</p>
+                <p>Every moment with you feels like a beautiful dream that I never want to wake up from. You make me want to be a better person, just to be worthy of your love.</p>
+                <p>You are my sunshine, my happiness, my everything. I can't imagine my life without you in it.</p>
+                <p class="signature">Forever Yours,<br>Jenish 💕</p>
+            </div>
+
+            <h2 class="question">Will you be my girlfriend? 💍</h2>
+
+            <div class="buttons">
+                <button class="btn btn-yes" onclick="handleYes()">Yes! 💕</button>
+                <button class="btn btn-no" id="noBtn" onmouseover="moveButton()" onclick="handleNo()">No 😢</button>
+            </div>
+        </div>
+
+        <!-- Yes Response -->
+        <div class="response-screen" id="yesScreen">
+            <div class="celebration">🎉💕🎊</div>
+            <h1 class="response-title">You Made Me The Happiest! 🥰</h1>
+            <p class="response-text">This is the beginning of our beautiful journey together. I promise to love you, cherish you, and make you smile every single day. I love you, Sneha! ❤️</p>
+        </div>
+
+        <!-- No Response -->
+        <div class="response-screen" id="noScreen">
+            <div class="celebration">🥺💔</div>
+            <h1 class="response-title">Are you sure? 😢</h1>
+            <p class="response-text">My heart will always be yours, Sneha. I'll wait for you forever... ❤️</p>
+        </div>
+    </div>
+
+    <audio id="bgMusic" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // Create floating hearts
+        function createHearts() {
+            const container = document.getElementById('heartsContainer');
+            const hearts = ['❤️', '💕', '💖', '💗', '💓', '💝', '🌹', '✨'];
+            
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.className = 'floating-heart';
+                heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
+                heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+                container.appendChild(heart);
+                
+                setTimeout(() => heart.remove(), 7000);
+            }, 300);
+        }
+
+        // Create stars
+        function createStars() {
+            const container = document.getElementById('starsContainer');
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 2 + 's';
+                container.appendChild(star);
+            }
+        }
+
+        // Open letter animation
+        function openLetter() {
+            document.getElementById('envelope').style.display = 'none';
+            document.getElementById('mainContent').style.display = 'block';
+        }
+
+        // Move the No button away (playfully)
+        let moveCount = 0;
+        function moveButton() {
+            moveCount++;
+            const btn = document.getElementById('noBtn');
+            if (moveCount < 3) {
+                const x = (Math.random() - 0.5) * 200;
+                const y = (Math.random() - 0.5) * 100;
+                btn.style.transform = `translate(${x}px, ${y}px)`;
+            }
+        }
+
+        // Handle Yes response
+        function handleYes() {
+            document.getElementById('mainContent').style.display = 'none';
+            document.getElementById('yesScreen').style.display = 'block';
+            createConfetti();
+            saveResponse('yes');
+        }
+
+        // Handle No response
+        function handleNo() {
+            document.getElementById('mainContent').style.display = 'none';
+            document.getElementById('noScreen').style.display = 'block';
+            saveResponse('no');
+        }
+
+        // Create confetti celebration
+        function createConfetti() {
+            const colors = ['#ff6b9d', '#ff8fab', '#ffd6e0', '#ffb3c6', '#ff85a1', '#ffc2d1', '#f9c6cf'];
+            for (let i = 0; i < 150; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + 'vw';
+                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+                    confetti.style.width = (Math.random() * 10 + 5) + 'px';
+                    confetti.style.height = confetti.style.width;
+                    document.body.appendChild(confetti);
+                    
+                    setTimeout(() => confetti.remove(), 3000);
+                }, i * 20);
+            }
+        }
+
+        // ⚠️ IMPORTANT: Replace these with your own JSONBin.io credentials
+        // 1. Go to https://jsonbin.io and create a free account
+        // 2. Create a new bin with content: []
+        // 3. Copy your Bin ID and API Key below
+        const JSONBIN_BIN_ID = 'YOUR_BIN_ID_HERE';  // Replace with your Bin ID
+        const JSONBIN_API_KEY = 'YOUR_API_KEY_HERE'; // Replace with your API Key
+
+        // Save response to JSONBin.io
+        async function saveResponse(response) {
+            const data = {
+                response: response,
+                timestamp: new Date().toISOString(),
+                message: response === 'yes' ? 'Sneha said YES! 💕' : 'Sneha said no 😢'
+            };
+
+            try {
+                // First, get existing responses
+                const getRes = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}/latest`, {
+                    headers: { 'X-Access-Key': JSONBIN_API_KEY }
+                });
+                const existing = await getRes.json();
+                const responses = existing.record || [];
+                
+                // Add new response
+                responses.push(data);
+                
+                // Save updated responses
+                await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Access-Key': JSONBIN_API_KEY
+                    },
+                    body: JSON.stringify(responses)
+                });
+                console.log('Response saved to cloud! ☁️');
+            } catch (error) {
+                console.log('Using localStorage fallback');
+                const responses = JSON.parse(localStorage.getItem('proposal_responses') || '[]');
+                responses.push(data);
+                localStorage.setItem('proposal_responses', JSON.stringify(responses));
+            }
+        }
+
+        // Toggle background music
+        function toggleMusic() {
+            const music = document.getElementById('bgMusic');
+            if (music.paused) {
+                music.play();
+            } else {
+                music.pause();
+            }
+        }
+
+        // Initialize
+        createHearts();
+        createStars();
+    </script>
+</body>
+</html>
