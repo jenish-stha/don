@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎉 She Said YES!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            z-index: 10;
+            padding: 40px;
+        }
+
+        .celebration {
+            font-size: 100px;
+            margin-bottom: 30px;
+            animation: bounce 0.6s ease infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-30px); }
+        }
+
+        .title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 4rem;
+            color: #ff6b9d;
+            margin-bottom: 30px;
+            text-shadow: 0 0 50px rgba(255, 107, 157, 0.8);
+            animation: glow 1.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 30px rgba(255, 107, 157, 0.5); }
+            to { text-shadow: 0 0 60px rgba(255, 107, 157, 1), 0 0 100px rgba(255, 107, 157, 0.5); }
+        }
+
+        .message {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            margin: 0 auto;
+            border: 1px solid rgba(255, 107, 157, 0.3);
+        }
+
+        .message p {
+            color: #fff;
+            font-size: 1.4rem;
+            line-height: 2;
+            margin-bottom: 20px;
+        }
+
+        .hearts-row {
+            font-size: 40px;
+            margin: 30px 0;
+            animation: heartwave 2s ease-in-out infinite;
+        }
+
+        @keyframes heartwave {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .signature {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.5rem;
+            color: #ff6b9d;
+            margin-top: 30px;
+        }
+
+        /* Confetti */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            top: -10px;
+            animation: confettiFall 4s ease-out forwards;
+            z-index: 100;
+        }
+
+        @keyframes confettiFall {
+            0% { top: -10px; transform: rotate(0deg) translateX(0); }
+            100% { top: 100vh; transform: rotate(720deg) translateX(100px); }
+        }
+
+        /* Fireworks */
+        .firework {
+            position: fixed;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            animation: explode 1s ease-out forwards;
+        }
+
+        @keyframes explode {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(20); opacity: 0; }
+        }
+
+        /* Stars */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 1s ease-in-out infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.5); }
+        }
+
+        /* Floating hearts */
+        .floating-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .float-heart {
+            position: absolute;
+            animation: floatUp 5s ease-in infinite;
+            opacity: 0;
+        }
+
+        @keyframes floatUp {
+            0% { opacity: 0; transform: translateY(100vh) rotate(0deg) scale(0.5); }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { opacity: 0; transform: translateY(-100vh) rotate(720deg) scale(1.5); }
+        }
+
+        @media (max-width: 768px) {
+            .title { font-size: 2.5rem; }
+            .message p { font-size: 1.1rem; }
+            .celebration { font-size: 70px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    <div class="floating-hearts" id="floatingHearts"></div>
+
+    <div class="container">
+        <div class="celebration">🎉💕🎊</div>
+        
+        <h1 class="title">You Made Me The Happiest Person! 🥰</h1>
+        
+        <div class="message">
+            <p>This is the beginning of our beautiful journey together. From this moment on, you're not just someone I love - you're my partner, my best friend, my everything.</p>
+            
+            <div class="hearts-row">💕💖💕💖💕</div>
+            
+            <p>I promise to love you unconditionally, to support you always, to make you laugh every day, and to be by your side through every adventure life brings us.</p>
+            
+            <p>Thank you for saying YES. Thank you for choosing me. Thank you for making my dream come true.</p>
+            
+            <div class="signature">
+                I Love You Forever,<br>
+                Your Jenish 💕
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Create stars
+        const starsContainer = document.getElementById('stars');
+        for (let i = 0; i < 150; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 1 + 's';
+            starsContainer.appendChild(star);
+        }
+
+        // Floating hearts
+        const heartsContainer = document.getElementById('floatingHearts');
+        const hearts = ['❤️', '💕', '💖', '💗', '💓', '💝', '🌹', '✨', '🎊', '🎉'];
+        setInterval(() => {
+            const heart = document.createElement('div');
+            heart.className = 'float-heart';
+            heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.fontSize = (Math.random() * 25 + 20) + 'px';
+            heartsContainer.appendChild(heart);
+            setTimeout(() => heart.remove(), 5000);
+        }, 150);
+
+        // Confetti
+        const colors = ['#ff6b9d', '#ff8fab', '#ffc2d1', '#ffd6e0', '#a855f7', '#ec4899', '#f472b6', '#fbbf24', '#34d399'];
+        function createConfetti() {
+            for (let i = 0; i < 200; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + 'vw';
+                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.width = (Math.random() * 10 + 5) + 'px';
+                    confetti.style.height = (Math.random() * 10 + 5) + 'px';
+                    confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+                    document.body.appendChild(confetti);
+                    setTimeout(() => confetti.remove(), 4000);
+                }, i * 30);
+            }
+        }
+
+        // Fireworks
+        function createFirework(x, y) {
+            for (let i = 0; i < 12; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'firework';
+                particle.style.left = x + 'px';
+                particle.style.top = y + 'px';
+                particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+                document.body.appendChild(particle);
+                setTimeout(() => particle.remove(), 1000);
+            }
+        }
+
+        // Initial celebration
+        createConfetti();
+        
+        // Periodic fireworks
+        setInterval(() => {
+            createFirework(Math.random() * window.innerWidth, Math.random() * window.innerHeight * 0.5);
+        }, 800);
+
+        // More confetti every few seconds
+        setInterval(createConfetti, 5000);
+    </script>
+</body>
+</html>

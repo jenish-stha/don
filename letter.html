@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💌 My Letter To You</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&family=Caveat:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #2d1f3d 0%, #1a1a2e 50%, #16213e 100%);
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        .letter-container {
+            max-width: 650px;
+            width: 100%;
+            animation: fadeIn 1s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .letter {
+            background: linear-gradient(135deg, #fff9f0 0%, #fff5eb 100%);
+            border-radius: 5px;
+            padding: 50px;
+            box-shadow: 
+                0 0 0 1px rgba(0,0,0,0.1),
+                0 30px 60px rgba(0,0,0,0.3),
+                0 0 100px rgba(255, 107, 157, 0.2);
+            position: relative;
+            transform: rotate(-1deg);
+        }
+
+        .letter::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #ff6b9d, #ff8fab, #ffc2d1);
+        }
+
+        .letter-date {
+            text-align: right;
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 30px;
+        }
+
+        .letter-greeting {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.5rem;
+            color: #ff6b9d;
+            margin-bottom: 25px;
+        }
+
+        .letter-body {
+            font-family: 'Caveat', cursive;
+            font-size: 1.5rem;
+            color: #333;
+            line-height: 2;
+        }
+
+        .letter-body p {
+            margin-bottom: 20px;
+            text-indent: 30px;
+        }
+
+        .letter-signature {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2rem;
+            color: #ff6b9d;
+            text-align: right;
+            margin-top: 40px;
+        }
+
+        .heart-decoration {
+            text-align: center;
+            font-size: 30px;
+            margin: 30px 0;
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .next-btn {
+            display: block;
+            width: 280px;
+            margin: 40px auto 0;
+            padding: 20px 40px;
+            background: linear-gradient(135deg, #ff6b9d, #ff8fab);
+            border: none;
+            border-radius: 50px;
+            color: white;
+            font-size: 1.3rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            box-shadow: 0 10px 40px rgba(255, 107, 157, 0.4);
+            transition: all 0.3s ease;
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        .next-btn:hover {
+            transform: scale(1.05);
+        }
+
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 10px 40px rgba(255, 107, 157, 0.4); }
+            50% { box-shadow: 0 10px 60px rgba(255, 107, 157, 0.7); }
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #ff6b9d, #ff8fab);
+            width: 66%;
+            z-index: 100;
+        }
+
+        .step-indicator {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+        }
+
+        .floating-petals {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .petal {
+            position: absolute;
+            font-size: 20px;
+            opacity: 0.6;
+            animation: fall 10s linear infinite;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-100px) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.6; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar"></div>
+    <div class="step-indicator">2 / 3</div>
+    <div class="floating-petals" id="petals"></div>
+
+    <div class="letter-container">
+        <div class="letter">
+            <p class="letter-date">November 28, 2025</p>
+            
+            <h1 class="letter-greeting">My Dearest Sneha,</h1>
+            
+            <div class="letter-body">
+                <p>From the moment you came into my life, everything changed. The world became more colorful, the days became brighter, and my heart found a reason to beat faster.</p>
+                
+                <p>I find myself smiling at random moments just thinking about you. Your voice is my favorite sound, your name is my favorite word, and your presence is my favorite feeling.</p>
+                
+                <div class="heart-decoration">💕</div>
+                
+                <p>Every moment spent with you feels like a beautiful dream that I never want to wake up from. You understand me like no one else does, and you make me want to become a better person every single day.</p>
+                
+                <p>I've never been good with words, but with you, my heart speaks a language it never knew before. You are my sunshine on cloudy days, my calm in every storm, and my happiness in every moment.</p>
+                
+                <p>I promise to love you, cherish you, protect you, and stand by you through everything life brings our way. You are not just someone I love - you are someone I cannot imagine my life without.</p>
+            </div>
+            
+            <div class="letter-signature">
+                Forever & Always Yours,<br>
+                Jenish 💕
+            </div>
+        </div>
+
+        <button class="next-btn" onclick="window.location.href='question.html'">
+            The Big Question 💍 →
+        </button>
+    </div>
+
+    <script>
+        // Create falling petals
+        const container = document.getElementById('petals');
+        const petalTypes = ['🌸', '💮', '🌺', '✨'];
+        
+        for (let i = 0; i < 15; i++) {
+            const petal = document.createElement('div');
+            petal.className = 'petal';
+            petal.textContent = petalTypes[Math.floor(Math.random() * petalTypes.length)];
+            petal.style.left = Math.random() * 100 + '%';
+            petal.style.animationDuration = (Math.random() * 5 + 8) + 's';
+            petal.style.animationDelay = (Math.random() * 5) + 's';
+            container.appendChild(petal);
+        }
+    </script>
+</body>
+</html>
