@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>😢 Are You Sure?</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            padding: 20px;
+        }
+
+        .container {
+            text-align: center;
+            max-width: 600px;
+            z-index: 10;
+        }
+
+        .sad-emoji {
+            font-size: 120px;
+            margin-bottom: 20px;
+            animation: cry 1s ease-in-out infinite;
+        }
+
+        @keyframes cry {
+            0%, 100% { transform: rotate(-5deg); }
+            50% { transform: rotate(5deg); }
+        }
+
+        .title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3rem;
+            color: #ff6b9d;
+            margin-bottom: 20px;
+        }
+
+        .message {
+            color: #fff;
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+            line-height: 1.8;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .message-text {
+            margin-bottom: 20px;
+        }
+
+        .reasons {
+            text-align: left;
+            color: #ffc2d1;
+            margin: 20px 0;
+        }
+
+        .reasons li {
+            margin: 10px 0;
+            list-style: none;
+        }
+
+        .reasons li::before {
+            content: '💔 ';
+        }
+
+        .buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn-yes {
+            padding: 20px 50px;
+            font-size: 1.5rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            background: linear-gradient(135deg, #ff6b9d, #ff8fab);
+            color: white;
+            box-shadow: 0 10px 40px rgba(255, 107, 157, 0.5);
+            transition: all 0.3s ease;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 10px 40px rgba(255, 107, 157, 0.5); }
+            50% { transform: scale(1.05); box-shadow: 0 15px 50px rgba(255, 107, 157, 0.7); }
+        }
+
+        .btn-yes:hover {
+            transform: scale(1.1);
+        }
+
+        .btn-no {
+            padding: 15px 40px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            background: rgba(255, 255, 255, 0.1);
+            color: #888;
+            transition: all 0.3s ease;
+        }
+
+        .counter {
+            color: #fbbf24;
+            font-size: 0.9rem;
+            margin-top: 20px;
+        }
+
+        .growing-yes {
+            transition: all 0.3s ease;
+        }
+
+        .shrinking-no {
+            transition: all 0.3s ease;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .final-message {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .heart-rain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .tear {
+            position: absolute;
+            font-size: 20px;
+            animation: fall 3s linear infinite;
+            opacity: 0.6;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-20px); opacity: 0; }
+            10% { opacity: 0.6; }
+            100% { transform: translateY(100vh); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="heart-rain" id="tearRain"></div>
+
+    <div class="container">
+        <div id="stage1">
+            <div class="sad-emoji">😢</div>
+            <h1 class="title">Wait... Really? 💔</h1>
+            <div class="message">
+                <p class="message-text">My heart just broke into a million pieces... 😭</p>
+                <p>But maybe you didn't understand how much you mean to me...</p>
+            </div>
+            <div class="buttons">
+                <button class="btn-yes" onclick="sayYes()">Okay fine, YES! 💕</button>
+                <button class="btn-no" onclick="nextStage(2)">Still No 😢</button>
+            </div>
+        </div>
+
+        <div id="stage2" class="hidden">
+            <div class="sad-emoji">😭</div>
+            <h1 class="title">Please Reconsider! 🥺</h1>
+            <div class="message">
+                <p class="message-text">Think about what you'll be missing:</p>
+                <ul class="reasons">
+                    <li>Someone who will love you unconditionally</li>
+                    <li>Late night talks and morning texts</li>
+                    <li>A partner who thinks you're perfect</li>
+                    <li>Endless hugs and support</li>
+                </ul>
+            </div>
+            <div class="buttons">
+                <button class="btn-yes growing-yes" id="yesBtn2" onclick="sayYes()">You're right, YES! 💕</button>
+                <button class="btn-no shrinking-no" id="noBtn2" onclick="nextStage(3)">No means no</button>
+            </div>
+        </div>
+
+        <div id="stage3" class="hidden">
+            <div class="sad-emoji">🥺</div>
+            <h1 class="title">One More Chance? 🙏</h1>
+            <div class="message">
+                <p class="message-text">I promise I'll:</p>
+                <ul class="reasons">
+                    <li>Make you smile every single day</li>
+                    <li>Be there whenever you need me</li>
+                    <li>Love you more than words can say</li>
+                    <li>Never give up on us</li>
+                </ul>
+            </div>
+            <div class="buttons">
+                <button class="btn-yes growing-yes" id="yesBtn3" style="font-size: 1.8rem; padding: 25px 60px;" onclick="sayYes()">OKAY YES! 💕</button>
+                <button class="btn-no shrinking-no" id="noBtn3" style="font-size: 0.8rem; padding: 10px 25px;" onclick="nextStage(4)">no...</button>
+            </div>
+        </div>
+
+        <div id="stage4" class="hidden">
+            <div class="sad-emoji">😿</div>
+            <h1 class="title">Last Chance... 💔</h1>
+            <div class="message">
+                <p class="message-text">My heart can't take this anymore...</p>
+                <p>Just imagine how happy we could be together! 🌟</p>
+                <p style="margin-top: 20px; color: #ff6b9d;">Please say yes, Sneha... 🙏</p>
+            </div>
+            <div class="buttons">
+                <button class="btn-yes growing-yes" id="yesBtn4" style="font-size: 2.2rem; padding: 30px 80px;" onclick="sayYes()">YES YES YES! 💕💕💕</button>
+                <button class="btn-no shrinking-no" id="noBtn4" style="font-size: 0.6rem; padding: 5px 15px; opacity: 0.5;" onclick="nextStage(5)">n..</button>
+            </div>
+            <p class="counter" id="counter"></p>
+        </div>
+
+        <div id="stage5" class="hidden">
+            <div class="sad-emoji">🥹</div>
+            <h1 class="title">Okay... I understand 💔</h1>
+            <div class="message final-message">
+                <p class="message-text">But just know that my heart will always belong to you...</p>
+                <p>And I'll wait for you, no matter how long it takes.</p>
+                <p style="margin-top: 20px;">Because some people are worth waiting forever for. 💕</p>
+                <p style="margin-top: 30px; color: #ff6b9d; font-family: 'Dancing Script', cursive; font-size: 1.8rem;">- Jenish</p>
+            </div>
+            <div class="buttons">
+                <button class="btn-yes" style="font-size: 2rem; padding: 25px 70px;" onclick="sayYes()">Wait... I Changed My Mind! 💕</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // JSONBin credentials
+        const JSONBIN_BIN_ID = '6929b1ccd0ea881f4005d818';
+        const JSONBIN_API_KEY = '$2a$10$xYtkFxU4J2Wr4iLdux4HR.4N07ocnAapSQWx6AZCGF4y1X8bvphMq';
+
+        // Create falling tears
+        const tearContainer = document.getElementById('tearRain');
+        const tears = ['💧', '😢', '💔'];
+        
+        for (let i = 0; i < 10; i++) {
+            setTimeout(() => {
+                createTear();
+            }, i * 300);
+        }
+
+        setInterval(() => {
+            if (tearContainer.children.length < 15) {
+                createTear();
+            }
+        }, 800);
+
+        function createTear() {
+            const tear = document.createElement('div');
+            tear.className = 'tear';
+            tear.textContent = tears[Math.floor(Math.random() * tears.length)];
+            tear.style.left = Math.random() * 100 + 'vw';
+            tear.style.animationDuration = (Math.random() * 2 + 2) + 's';
+            tearContainer.appendChild(tear);
+            setTimeout(() => tear.remove(), 4000);
+        }
+
+        let noCount = 0;
+
+        function nextStage(stage) {
+            noCount++;
+            
+            // Hide all stages
+            for (let i = 1; i <= 5; i++) {
+                document.getElementById('stage' + i).classList.add('hidden');
+            }
+            
+            // Show requested stage
+            document.getElementById('stage' + stage).classList.remove('hidden');
+            
+            // Update counter on stage 4
+            if (stage === 4) {
+                document.getElementById('counter').textContent = `You've said no ${noCount} times... 😢`;
+            }
+        }
+
+        async function sayYes() {
+            // Save response
+            const data = {
+                response: 'yes',
+                timestamp: new Date().toISOString(),
+                message: 'Sneha said YES! 💕 (after some convincing 😄)'
+            };
+
+            try {
+                const getRes = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}/latest`, {
+                    headers: { 'X-Access-Key': JSONBIN_API_KEY }
+                });
+                const existing = await getRes.json();
+                let responses = existing.record?.responses || [];
+                if (!Array.isArray(responses)) responses = [];
+                responses.push(data);
+
+                await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Access-Key': JSONBIN_API_KEY
+                    },
+                    body: JSON.stringify({ responses })
+                });
+            } catch (error) {
+                localStorage.setItem('proposal_response', JSON.stringify(data));
+            }
+
+            // Redirect to yes page
+            window.location.href = 'yes.html';
+        }
+    </script>
+</body>
+</html>
