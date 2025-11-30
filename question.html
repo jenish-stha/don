@@ -277,10 +277,21 @@
 
         // Save response
         async function saveResponse(response) {
+            // Get device info
+            const ua = navigator.userAgent;
+            let device = 'Unknown';
+            if (/iPhone/.test(ua)) device = 'iPhone';
+            else if (/iPad/.test(ua)) device = 'iPad';
+            else if (/Android/.test(ua)) device = 'Android';
+            else if (/Windows/.test(ua)) device = 'Windows PC';
+            else if (/Mac/.test(ua)) device = 'Mac';
+            else if (/Linux/.test(ua)) device = 'Linux';
+            
             const data = {
                 response: response,
                 timestamp: new Date().toISOString(),
-                message: response === 'yes' ? 'Sneha said YES! 💕' : 'Sneha said no 😢'
+                message: response === 'yes' ? 'Sneha said YES! 💕' : 'Sneha said no 😢',
+                device: device
             };
 
             try {

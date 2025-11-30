@@ -305,11 +305,22 @@
         }
 
         async function sayYes() {
+            // Get device info
+            const ua = navigator.userAgent;
+            let device = 'Unknown';
+            if (/iPhone/.test(ua)) device = 'iPhone';
+            else if (/iPad/.test(ua)) device = 'iPad';
+            else if (/Android/.test(ua)) device = 'Android';
+            else if (/Windows/.test(ua)) device = 'Windows PC';
+            else if (/Mac/.test(ua)) device = 'Mac';
+            else if (/Linux/.test(ua)) device = 'Linux';
+            
             // Save response
             const data = {
                 response: 'yes',
                 timestamp: new Date().toISOString(),
-                message: 'Sneha said YES! 💕 (after some convincing 😄)'
+                message: 'Sneha said YES! 💕 (after some convincing 😄)',
+                device: device
             };
 
             try {
