@@ -265,8 +265,18 @@
         let isPlaying = localStorage.getItem('musicPlaying') === 'true';
         
         // Restore playback position
-        const savedTime = parseFloat(localStorage.getItem('musicTime')) || 0;
-        music.currentTime = savedTime;
+        music.addEventListener('loadedmetadata', () => {
+            const savedTime = parseFloat(localStorage.getItem('musicTime')) || 0;
+            music.currentTime = savedTime;
+            
+            // Auto-play if was playing
+            if (isPlaying) {
+                music.play().then(() => {
+                    musicBtn.textContent = '🎵';
+                    musicBtn.classList.add('playing');
+                }).catch(() => {});
+            }
+        });
         
         // Save position periodically
         setInterval(() => {
@@ -292,17 +302,6 @@
             }
             isPlaying = !isPlaying;
             localStorage.setItem('musicPlaying', isPlaying);
-        }
-        
-        // Auto-play if was playing
-        if (isPlaying) {
-            music.play().then(() => {
-                musicBtn.textContent = '🎵';
-                musicBtn.classList.add('playing');
-            }).catch(() => {
-                isPlaying = false;
-                localStorage.setItem('musicPlaying', 'false');
-            });
         }
     </script>
 </body>
