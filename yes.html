@@ -132,11 +132,16 @@
 
         .star {
             position: absolute;
-            width: 3px;
-            height: 3px;
+            width: 4px;
+            height: 4px;
             background: white;
             border-radius: 50%;
-            opacity: 0.7;
+            animation: twinkle 1s ease-in-out infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.5); }
         }
 
         /* Floating hearts */
@@ -152,13 +157,15 @@
 
         .float-heart {
             position: absolute;
-            animation: floatUp 6s linear forwards;
-            opacity: 0.8;
+            animation: floatUp 5s ease-in infinite;
+            opacity: 0;
         }
 
         @keyframes floatUp {
-            0% { transform: translateY(100vh); }
-            100% { transform: translateY(-100px); }
+            0% { opacity: 0; transform: translateY(100vh) rotate(0deg) scale(0.5); }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { opacity: 0; transform: translateY(-100vh) rotate(720deg) scale(1.5); }
         }
 
         @media (max-width: 768px) {
@@ -194,49 +201,52 @@
     </div>
 
     <script>
-        // Create stars (minimal for performance)
+        // Create stars (reduced count for performance)
         const starsContainer = document.getElementById('stars');
-        for (let i = 0; i < 30; i++) {
+        for (let i = 0; i < 50; i++) {
             const star = document.createElement('div');
             star.className = 'star';
             star.style.left = Math.random() * 100 + '%';
             star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 1 + 's';
             starsContainer.appendChild(star);
         }
 
-        // Floating hearts (very minimal for performance)
+        // Floating hearts (reduced frequency for performance)
         const heartsContainer = document.getElementById('floatingHearts');
-        const hearts = ['❤️', '💕', '💖'];
-        let heartInterval = setInterval(() => {
-            if (heartsContainer.children.length < 8) {
+        const hearts = ['❤️', '💕', '💖', '💗', '✨'];
+        setInterval(() => {
+            if (heartsContainer.children.length < 15) {
                 const heart = document.createElement('div');
                 heart.className = 'float-heart';
                 heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
                 heart.style.left = Math.random() * 100 + 'vw';
-                heart.style.fontSize = '20px';
+                heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
                 heartsContainer.appendChild(heart);
-                setTimeout(() => heart.remove(), 6000);
+                setTimeout(() => heart.remove(), 5000);
             }
-        }, 800);
+        }, 500);
 
-        // Stop heart generation after 10 seconds for performance
-        setTimeout(() => clearInterval(heartInterval), 10000);
-
-        // Confetti (one time burst only)
+        // Confetti (reduced for performance)
         const colors = ['#ff6b9d', '#ff8fab', '#ffc2d1', '#a855f7', '#ec4899'];
-        for (let i = 0; i < 30; i++) {
-            setTimeout(() => {
-                const confetti = document.createElement('div');
-                confetti.className = 'confetti';
-                confetti.style.left = Math.random() * 100 + 'vw';
-                confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
-                confetti.style.width = '8px';
-                confetti.style.height = '8px';
-                confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
-                document.body.appendChild(confetti);
-                setTimeout(() => confetti.remove(), 4000);
-            }, i * 80);
+        function createConfetti() {
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + 'vw';
+                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.width = (Math.random() * 8 + 4) + 'px';
+                    confetti.style.height = confetti.style.width;
+                    confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+                    document.body.appendChild(confetti);
+                    setTimeout(() => confetti.remove(), 4000);
+                }, i * 50);
+            }
         }
+
+        // Initial celebration only
+        createConfetti();
     </script>
 </body>
 </html>

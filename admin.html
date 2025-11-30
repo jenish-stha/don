@@ -166,12 +166,101 @@
         }
 
         .no-responses-icon { font-size: 60px; margin-bottom: 20px; }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            border: 1px solid rgba(255, 107, 157, 0.3);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #ff6b9d;
+        }
+
+        .stat-label {
+            color: #888;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        .visitors-list {
+            margin-top: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .visitor-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .visitor-device {
+            color: #fff;
+            font-size: 0.9rem;
+        }
+
+        .visitor-time {
+            color: #888;
+            font-size: 0.8rem;
+        }
+
+        .visitor-pages {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+
+        .page-badge {
+            background: rgba(255, 107, 157, 0.2);
+            color: #ff8fab;
+            padding: 3px 10px;
+            border-radius: 10px;
+            font-size: 0.75rem;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>💕 Response Dashboard</h1>
         <p class="subtitle">Check if Sneha has responded</p>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number" id="totalVisitors">0</div>
+                <div class="stat-label">👥 Total Visitors</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="uniqueDevices">0</div>
+                <div class="stat-label">📱 Unique Devices</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalPageViews">0</div>
+                <div class="stat-label">👁️ Page Views</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalResponses">0</div>
+                <div class="stat-label">💌 Responses</div>
+            </div>
+        </div>
 
         <div class="link-box">
             <input type="text" id="proposalLink" readonly value="https://jenish-stha.github.io/don/">
@@ -190,8 +279,16 @@
             </div>
         </div>
 
-        <button class="refresh-btn" onclick="loadResponses()">🔄 Refresh</button>
+        <div class="status-card" style="margin-top: 30px;">
+            <h2 style="color: #fff; margin-bottom: 20px;">👥 Visitor Details</h2>
+            <div class="visitors-list" id="visitorsList">
+                <p style="color: #888;">Loading visitors...</p>
+            </div>
+        </div>
+
+        <button class="refresh-btn" onclick="loadAll()">🔄 Refresh</button>
         <button class="refresh-btn" style="background: linear-gradient(135deg, #667eea, #764ba2); margin-top: 10px;" onclick="clearResponses()">🗑️ Clear All Responses</button>
+        <button class="refresh-btn" style="background: linear-gradient(135deg, #f97316, #fb923c); margin-top: 10px;" onclick="clearVisitors()">🗑️ Clear Visitor Data</button>
         <p class="auto-refresh">Auto-refreshes every 5 seconds</p>
     </div>
 
@@ -256,6 +353,8 @@
 
                 const hasYes = responses.some(r => r.response === 'yes');
                 
+                document.getElementById('totalResponses').textContent = responses.length;
+
                 if (hasYes) {
                     statusIcon.textContent = '🎉💕🎊';
                     statusText.textContent = 'SNEHA SAID YES!!!';
@@ -289,8 +388,83 @@
             }
         }
 
-        loadResponses();
-        setInterval(loadResponses, 5000);
+        async function loadVisitors() {
+            try {
+                const res = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}/latest`, {
+                    headers: { 'X-Access-Key': JSONBIN_API_KEY }
+                });
+                const data = await res.json();
+                
+                let visitors = [];
+                if (data.record && data.record.visitors && Array.isArray(data.record.visitors)) {
+                    visitors = data.record.visitors;
+                }
+
+                // Calculate stats
+                const uniqueDevices = new Set(visitors.map(v => v.deviceId)).size;
+                const totalPageViews = visitors.reduce((sum, v) => sum + (v.pages ? v.pages.length : 1), 0);
+
+                document.getElementById('totalVisitors').textContent = visitors.length;
+                document.getElementById('uniqueDevices').textContent = uniqueDevices;
+                document.getElementById('totalPageViews').textContent = totalPageViews;
+
+                const visitorsList = document.getElementById('visitorsList');
+                
+                if (visitors.length === 0) {
+                    visitorsList.innerHTML = '<p style="color: #888; text-align: center;">No visitors yet</p>';
+                    return;
+                }
+
+                const displayVisitors = [...visitors].reverse();
+                visitorsList.innerHTML = displayVisitors.map(v => `
+                    <div class="visitor-item">
+                        <div>
+                            <div class="visitor-device">📱 ${v.device || 'Unknown Device'}</div>
+                            <div class="visitor-time">🕐 ${v.timestamp ? new Date(v.timestamp).toLocaleString() : 'Unknown'}</div>
+                        </div>
+                        <div class="visitor-pages">
+                            ${(v.pages || ['index']).map(p => `<span class="page-badge">${p}</span>`).join('')}
+                        </div>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading visitors:', error);
+                document.getElementById('visitorsList').innerHTML = '<p style="color: #f87171;">Error loading visitors</p>';
+            }
+        }
+
+        async function clearVisitors() {
+            if (!confirm('Are you sure you want to clear all visitor data?')) return;
+            
+            try {
+                const res = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}/latest`, {
+                    headers: { 'X-Access-Key': JSONBIN_API_KEY }
+                });
+                const data = await res.json();
+                const currentData = data.record || {};
+                
+                await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Access-Key': JSONBIN_API_KEY
+                    },
+                    body: JSON.stringify({ ...currentData, visitors: [] })
+                });
+                alert('Visitor data cleared!');
+                loadAll();
+            } catch (error) {
+                alert('Error clearing visitors: ' + error.message);
+            }
+        }
+
+        function loadAll() {
+            loadResponses();
+            loadVisitors();
+        }
+
+        loadAll();
+        setInterval(loadAll, 5000);
     </script>
 </body>
 </html>

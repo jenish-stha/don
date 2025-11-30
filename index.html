@@ -235,6 +235,62 @@
     </div>
 
     <script>
+        // Visitor tracking
+        const JSONBIN_BIN_ID = '6929b1ccd0ea881f4005d818';
+        const JSONBIN_API_KEY = '$2a$10$xYtkFxU4J2Wr4iLdux4HR.4N07ocnAapSQWx6AZCGF4y1X8bvphMq';
+
+        async function trackVisitor() {
+            try {
+                // Create device fingerprint
+                const deviceInfo = {
+                    screen: `${screen.width}x${screen.height}`,
+                    platform: navigator.platform,
+                    language: navigator.language,
+                    userAgent: navigator.userAgent
+                };
+                const deviceId = btoa(JSON.stringify(deviceInfo)).slice(0, 20);
+                
+                // Get device name
+                const ua = navigator.userAgent;
+                let device = 'Unknown';
+                if (/iPhone/.test(ua)) device = 'iPhone';
+                else if (/iPad/.test(ua)) device = 'iPad';
+                else if (/Android/.test(ua)) device = 'Android';
+                else if (/Windows/.test(ua)) device = 'Windows PC';
+                else if (/Mac/.test(ua)) device = 'Mac';
+                else if (/Linux/.test(ua)) device = 'Linux';
+                
+                // Get current data
+                const res = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}/latest`, {
+                    headers: { 'X-Access-Key': JSONBIN_API_KEY }
+                });
+                const data = await res.json();
+                const currentData = data.record || {};
+                const visitors = currentData.visitors || [];
+                
+                // Add new visitor
+                visitors.push({
+                    deviceId: deviceId,
+                    device: device,
+                    timestamp: new Date().toISOString(),
+                    pages: ['index']
+                });
+                
+                // Save
+                await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Access-Key': JSONBIN_API_KEY
+                    },
+                    body: JSON.stringify({ ...currentData, visitors: visitors })
+                });
+            } catch (e) {
+                console.log('Tracking error:', e);
+            }
+        }
+        trackVisitor();
+
         // Create stars
         function createStars() {
             const container = document.getElementById('stars');
