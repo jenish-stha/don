@@ -178,7 +178,7 @@
 
     <div class="letter-container">
         <div class="letter">
-            <p class="letter-date">November 28, 2025</p>
+            <p class="letter-date" id="liveDate"></p>
             
             <h1 class="letter-greeting">My Dearest Sneha,</h1>
             
@@ -208,6 +208,10 @@
     </div>
 
     <script>
+        // Set live date
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('liveDate').textContent = new Date().toLocaleDateString('en-US', options);
+
         // Create falling petals
         const container = document.getElementById('petals');
         const petalTypes = ['🌸', '💮', '🌺', '✨'];
