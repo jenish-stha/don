@@ -298,8 +298,8 @@
         }
 
         // Handle Yes
-        function handleYes() {
-            saveResponse('yes');
+        async function handleYes() {
+            await saveResponse('yes');
             window.location.href = 'yes.html';
         }
 
