@@ -252,13 +252,13 @@
                 <div class="stat-number" id="uniqueDevices">0</div>
                 <div class="stat-label">📱 Unique Devices</div>
             </div>
-            <div class="stat-card" style="border-color: #4ade80;">
-                <div class="stat-number" id="yesCount" style="color: #4ade80;">0</div>
-                <div class="stat-label">💕 Said YES</div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalPageViews">0</div>
+                <div class="stat-label">�️ Page Views</div>
             </div>
-            <div class="stat-card" style="border-color: #f87171;">
-                <div class="stat-number" id="noCount" style="color: #f87171;">0</div>
-                <div class="stat-label">😢 Said No</div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalResponses">0</div>
+                <div class="stat-label">� Responses</div>
             </div>
         </div>
 
@@ -352,11 +352,8 @@
                 }
 
                 const hasYes = responses.some(r => r.response === 'yes');
-                const yesCount = responses.filter(r => r.response === 'yes').length;
-                const noCountVal = responses.filter(r => r.response === 'no').length;
                 
-                document.getElementById('yesCount').textContent = yesCount;
-                document.getElementById('noCount').textContent = noCountVal;
+                document.getElementById('totalResponses').textContent = responses.length;
 
                 if (hasYes) {
                     statusIcon.textContent = '🎉💕🎊';
@@ -372,7 +369,7 @@
 
                 const displayResponses = [...responses].reverse();
                 container.innerHTML = `
-                    <h2 style="color: #fff; margin-bottom: 20px;">📊 All Responses (${responses.length}) - ${yesCount} Yes, ${noCountVal} No</h2>
+                    <h2 style="color: #fff; margin-bottom: 20px;">📊 All Responses (${responses.length})</h2>
                     <div class="responses-grid">
                         ${displayResponses.map(r => `
                             <div class="response-card ${r.response || 'unknown'}">
@@ -381,7 +378,6 @@
                                     <span class="response-time">${r.timestamp ? new Date(r.timestamp).toLocaleString() : 'Unknown time'}</span>
                                 </div>
                                 <p class="response-message">${r.message || 'No message'}</p>
-                                ${r.device ? `<p style="color: #888; font-size: 0.85rem; margin-top: 8px;">📱 ${r.device}</p>` : ''}
                             </div>
                         `).join('')}
                     </div>

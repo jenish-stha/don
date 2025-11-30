@@ -204,9 +204,42 @@
             .btn-no { font-size: 1.1rem; padding: 15px 40px; }
             .big-heart { font-size: 80px; }
         }
+        .music-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff6b9d, #ff8fab);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 4px 15px rgba(255, 107, 157, 0.4);
+            z-index: 1000;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .music-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(255, 107, 157, 0.6);
+        }
+        .music-btn.playing {
+            animation: pulse 1s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
     </style>
 </head>
 <body>
+    <button class="music-btn" id="musicBtn" onclick="toggleMusic()">🔇</button>
+    <audio id="bgMusic" loop>
+        <source src="audio.MP3" type="audio/mpeg">
+    </audio>
     <div class="progress-bar"></div>
     <div class="step-indicator">3 / 3</div>
     <div class="stars" id="stars"></div>
@@ -277,21 +310,10 @@
 
         // Save response
         async function saveResponse(response) {
-            // Get device info
-            const ua = navigator.userAgent;
-            let device = 'Unknown';
-            if (/iPhone/.test(ua)) device = 'iPhone';
-            else if (/iPad/.test(ua)) device = 'iPad';
-            else if (/Android/.test(ua)) device = 'Android';
-            else if (/Windows/.test(ua)) device = 'Windows PC';
-            else if (/Mac/.test(ua)) device = 'Mac';
-            else if (/Linux/.test(ua)) device = 'Linux';
-            
             const data = {
                 response: response,
                 timestamp: new Date().toISOString(),
-                message: response === 'yes' ? 'Sneha said YES! 💕' : 'Sneha said no 😢',
-                device: device
+                message: response === 'yes' ? 'Sneha said YES! 💕' : 'Sneha said no 😢'
             };
 
             try {
@@ -315,6 +337,36 @@
                 console.log('Saved locally');
                 localStorage.setItem('proposal_response', JSON.stringify(data));
             }
+        }
+
+        // Music control
+        const music = document.getElementById('bgMusic');
+        const musicBtn = document.getElementById('musicBtn');
+        let isPlaying = localStorage.getItem('musicPlaying') === 'true';
+        
+        function toggleMusic() {
+            if (isPlaying) {
+                music.pause();
+                musicBtn.textContent = '🔇';
+                musicBtn.classList.remove('playing');
+            } else {
+                music.play();
+                musicBtn.textContent = '🎵';
+                musicBtn.classList.add('playing');
+            }
+            isPlaying = !isPlaying;
+            localStorage.setItem('musicPlaying', isPlaying);
+        }
+        
+        // Auto-play if was playing
+        if (isPlaying) {
+            music.play().then(() => {
+                musicBtn.textContent = '🎵';
+                musicBtn.classList.add('playing');
+            }).catch(() => {
+                isPlaying = false;
+                localStorage.setItem('musicPlaying', 'false');
+            });
         }
     </script>
 </body>

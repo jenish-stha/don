@@ -173,9 +173,42 @@
             .message p { font-size: 1.1rem; }
             .celebration { font-size: 70px; }
         }
+        .music-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff6b9d, #ff8fab);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 4px 15px rgba(255, 107, 157, 0.4);
+            z-index: 1000;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .music-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(255, 107, 157, 0.6);
+        }
+        .music-btn.playing {
+            animation: pulse 1s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
     </style>
 </head>
 <body>
+    <button class="music-btn" id="musicBtn" onclick="toggleMusic()">🔇</button>
+    <audio id="bgMusic" loop>
+        <source src="audio.MP3" type="audio/mpeg">
+    </audio>
     <div class="stars" id="stars"></div>
     <div class="floating-hearts" id="floatingHearts"></div>
 
@@ -247,6 +280,36 @@
 
         // Initial celebration only
         createConfetti();
+
+        // Music control
+        const music = document.getElementById('bgMusic');
+        const musicBtn = document.getElementById('musicBtn');
+        let isPlaying = localStorage.getItem('musicPlaying') === 'true';
+        
+        function toggleMusic() {
+            if (isPlaying) {
+                music.pause();
+                musicBtn.textContent = '🔇';
+                musicBtn.classList.remove('playing');
+            } else {
+                music.play();
+                musicBtn.textContent = '🎵';
+                musicBtn.classList.add('playing');
+            }
+            isPlaying = !isPlaying;
+            localStorage.setItem('musicPlaying', isPlaying);
+        }
+        
+        // Auto-play if was playing
+        if (isPlaying) {
+            music.play().then(() => {
+                musicBtn.textContent = '🎵';
+                musicBtn.classList.add('playing');
+            }).catch(() => {
+                isPlaying = false;
+                localStorage.setItem('musicPlaying', 'false');
+            });
+        }
     </script>
 </body>
 </html>
