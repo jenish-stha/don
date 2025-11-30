@@ -424,6 +424,29 @@
             localStorage.setItem('musicTime', music.currentTime);
         });
         
+        // Start music on first touch/click anywhere on the page
+        let hasStarted = false;
+        function startMusicOnInteraction() {
+            if (!hasStarted && !isPlaying) {
+                music.play().then(() => {
+                    musicBtn.textContent = '🎵';
+                    musicBtn.classList.add('playing');
+                    isPlaying = true;
+                    localStorage.setItem('musicPlaying', 'true');
+                    hasStarted = true;
+                }).catch(() => {});
+            }
+            // Remove listeners after first interaction
+            document.removeEventListener('click', startMusicOnInteraction);
+            document.removeEventListener('touchstart', startMusicOnInteraction);
+        }
+        
+        // Only add listeners if music hasn't been started yet
+        if (!isPlaying) {
+            document.addEventListener('click', startMusicOnInteraction);
+            document.addEventListener('touchstart', startMusicOnInteraction);
+        }
+        
         function toggleMusic() {
             if (isPlaying) {
                 music.pause();
