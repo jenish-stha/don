@@ -321,7 +321,8 @@
                     headers: { 'X-Access-Key': JSONBIN_API_KEY }
                 });
                 const existing = await getRes.json();
-                let responses = existing.record?.responses || [];
+                const currentData = existing.record || {};
+                let responses = currentData.responses || [];
                 if (!Array.isArray(responses)) responses = [];
                 responses.push(data);
 
@@ -331,7 +332,7 @@
                         'Content-Type': 'application/json',
                         'X-Access-Key': JSONBIN_API_KEY
                     },
-                    body: JSON.stringify({ responses })
+                    body: JSON.stringify({ ...currentData, responses })
                 });
             } catch (error) {
                 console.log('Saved locally');

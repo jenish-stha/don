@@ -306,16 +306,22 @@
             if (!confirm('Are you sure you want to clear all responses?')) return;
             
             try {
+                const res = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}/latest`, {
+                    headers: { 'X-Access-Key': JSONBIN_API_KEY }
+                });
+                const data = await res.json();
+                const currentData = data.record || {};
+                
                 await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
                         'X-Access-Key': JSONBIN_API_KEY
                     },
-                    body: JSON.stringify({ responses: [] })
+                    body: JSON.stringify({ ...currentData, responses: [] })
                 });
                 alert('Responses cleared!');
-                loadResponses();
+                loadAll();
             } catch (error) {
                 alert('Error clearing responses: ' + error.message);
             }
