@@ -344,6 +344,22 @@
         const musicBtn = document.getElementById('musicBtn');
         let isPlaying = localStorage.getItem('musicPlaying') === 'true';
         
+        // Restore playback position
+        const savedTime = parseFloat(localStorage.getItem('musicTime')) || 0;
+        music.currentTime = savedTime;
+        
+        // Save position periodically
+        setInterval(() => {
+            if (!music.paused) {
+                localStorage.setItem('musicTime', music.currentTime);
+            }
+        }, 500);
+        
+        // Save position before leaving page
+        window.addEventListener('beforeunload', () => {
+            localStorage.setItem('musicTime', music.currentTime);
+        });
+        
         function toggleMusic() {
             if (isPlaying) {
                 music.pause();
